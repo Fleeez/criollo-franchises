@@ -13,7 +13,8 @@ import {
   ChevronRight,
   Shield,
   FileText,
-  Menu
+  Menu,
+  Video
 } from 'lucide-react';
 
 export default function App() {
@@ -942,8 +943,44 @@ export default function App() {
                   </p>
                 </div>
 
-                <div style={{ fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: '1.5', fontWeight: 600 }}>
-                  De ser cualificado, un Director General de la firma se comunicará de forma directa al número <span style={{ color: 'var(--color-gold)' }}>{whatsapp}</span> en la franja de la <span style={{ color: 'var(--color-gold)' }}>{callSlot}</span> coordinada para pactar una reunión formal de negocios.
+                <div style={{ fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: '1.5', fontWeight: 600, marginBottom: '24px' }}>
+                  De ser cualificado, un Director General de la firma se comunicará de forma directa al número <span style={{ color: 'var(--color-gold)' }}>{whatsapp}</span> en la franja de la <span style={{ color: 'var(--color-gold)' }}>{callSlot}</span> coordinada para pactar una reunión formal de negocios o coordinar una videollamada de presentación.
+                </div>
+
+                <div style={{ 
+                  marginTop: '28px',
+                  paddingTop: '20px',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+                  textAlign: 'center'
+                }}>
+                  <p style={{ 
+                    fontSize: '0.82rem', 
+                    color: 'var(--text-muted)', 
+                    marginBottom: '16px',
+                    lineHeight: '1.5' 
+                  }}>
+                    ¿Deseás agilizar el proceso de cualificación? Agendá una videollamada directa de 15 minutos en nuestro calendario:
+                  </p>
+                  <a 
+                    href="https://calendly.com/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="btn-primary" 
+                    style={{ 
+                      backgroundColor: 'var(--color-gold)', 
+                      borderColor: 'rgba(255,255,255,0.15)',
+                      padding: '12px 24px',
+                      fontSize: '0.8rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      width: '100%'
+                    }}
+                  >
+                    <Video size={16} />
+                    AGENDAR VIDEOLLAMADA
+                  </a>
                 </div>
               </div>
             )}
