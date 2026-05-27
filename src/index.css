@@ -310,10 +310,12 @@ header.scrolled {
   display: flex;
   align-items: center;
   gap: 10px;
+  white-space: nowrap;
 }
 
 .brand-logo .logo-accent {
   color: var(--color-gold);
+  white-space: nowrap;
 }
 
 .nav-links {
@@ -332,6 +334,22 @@ header.scrolled {
   transition: color 0.3s;
   position: relative;
   padding: 6px 0;
+  white-space: nowrap;
+}
+
+/* Expand header container to the sides on desktop to prevent any wrapping */
+@media (min-width: 992px) {
+  header .container {
+    max-width: 1400px;
+    width: 95%;
+  }
+}
+
+/* Responsive logo scaling on small viewports */
+@media (max-width: 576px) {
+  .brand-logo {
+    font-size: 1.15rem;
+  }
 }
 
 .nav-link::after {
