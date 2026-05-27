@@ -918,20 +918,32 @@ export default function App() {
                 <div className="success-check-badge">
                   <Check size={28} />
                 </div>
-                <h3 className="modal-title" style={{ color: 'var(--color-gold)' }}>Perfil Verificado</h3>
-                <p className="modal-subtitle">Estimado/a <span style={{ color: 'var(--text-primary)', fontWeight: 700 }}>{name}</span>, sus credenciales han sido cualificadas en nuestro sistema. El Dossier de Inversión ya se encuentra desbloqueado.</p>
+                <h3 className="modal-title" style={{ color: 'var(--color-gold)' }}>Postulación Recibida</h3>
+                <p className="modal-subtitle" style={{ marginBottom: '24px', lineHeight: '1.6' }}>
+                  Estimado/a <span style={{ color: 'var(--text-primary)', fontWeight: 700 }}>{name}</span>, sus datos y perfil financiero han sido registrados correctamente en nuestra suite de expansión.
+                </p>
                 
-                <div className="dossier-download-box" style={{ borderColor: 'rgba(197, 160, 89, 0.35)' }}>
-                  <div className="dossier-info">
-                    <h4>Dossier_Financiero_Criollo_2026.pdf</h4>
-                    <p>PDF confidencial • 4.8 MB • Plan de Expansión Integrado</p>
-                  </div>
-                  <a href="https://criollo-web.vercel.app" target="_blank" rel="noopener noreferrer" className="btn-primary btn-download" style={{ backgroundColor: 'var(--color-gold)', borderColor: 'rgba(255,255,255,0.15)' }}>
-                    DESCARGAR DECK
-                  </a>
+                <div style={{ 
+                  backgroundColor: 'rgba(255, 255, 255, 0.01)', 
+                  border: '1px solid rgba(197, 160, 89, 0.15)', 
+                  borderRadius: '12px', 
+                  padding: '24px', 
+                  marginBottom: '24px',
+                  textAlign: 'left',
+                  fontSize: '0.88rem',
+                  lineHeight: '1.6',
+                  color: 'var(--text-muted)'
+                }}>
+                  <p style={{ marginBottom: '12px' }}>
+                    Para salvaguardar la información estratégica confidencial de la firma, los balances consolidados y el Dossier Técnico no se distribuyen de forma automatizada.
+                  </p>
+                  <p>
+                    Nuestro Comité de Expansión auditará la viabilidad y disponibilidad geográfica de la zona solicitada (<strong>{region}</strong>) para la escala de inversión de <strong>{formCapital === '60k-100k' ? 'USD 60k - USD 100k (Express)' : formCapital === '100k-200k' ? 'USD 100k - USD 200k (Avenida)' : 'Más de USD 200k (Premium / Multiunit)'}</strong>.
+                  </p>
                 </div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '10px' }}>
-                  Un asesor de expansión se contactará en la franja de la {callSlot} seleccionada para coordinar los detalles físicos de la sucursal.
+
+                <div style={{ fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: '1.5', fontWeight: 600 }}>
+                  De ser cualificado, un Director General de la firma se comunicará de forma directa al número <span style={{ color: 'var(--color-gold)' }}>{whatsapp}</span> en la franja de la <span style={{ color: 'var(--color-gold)' }}>{callSlot}</span> coordinada para pactar una reunión formal de negocios.
                 </div>
               </div>
             )}
