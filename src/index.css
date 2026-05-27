@@ -1480,6 +1480,12 @@ header.scrolled {
   padding-right: 48px;
 }
 
+.form-select option,
+select option {
+  background-color: #0c0c0c !important;
+  color: #f5efe6 !important;
+}
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
