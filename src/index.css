@@ -44,11 +44,22 @@
   scroll-behavior: smooth;
 }
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+}
+
 body {
   background-color: var(--bg-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+#root {
   overflow-x: hidden;
+  width: 100%;
   position: relative;
 }
 
@@ -1637,6 +1648,11 @@ footer {
     font-size: 0.68rem;
     padding: 6px 12px;
     margin-bottom: 20px;
+    display: inline-flex;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.4;
   }
 }
 
