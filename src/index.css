@@ -1682,3 +1682,37 @@ footer {
   padding: 12px 24px;
   font-size: 0.8rem;
 }
+
+/* Additional iOS & Android Native Layout Optimizations */
+
+/* Prevent browser auto-zooming on input focus on iOS Safari */
+@media (max-width: 768px) {
+  .form-control,
+  .form-select,
+  select.form-control,
+  input.form-control {
+    font-size: 16px !important;
+  }
+}
+
+/* Touch targets size upgrades for mobile navigation links & toggle button */
+.mobile-menu-btn {
+  padding: 12px !important;
+}
+
+.mobile-menu-drawer .nav-link {
+  padding: 14px 0 !important;
+}
+
+/* iOS status bar and notch support */
+header {
+  padding-top: calc(24px + env(safe-area-inset-top, 0px)) !important;
+}
+header.scrolled {
+  padding-top: calc(14px + env(safe-area-inset-top, 0px)) !important;
+}
+
+/* Native-like smooth elastic scrolling on iOS modal overlays */
+.modal-overlay {
+  -webkit-overflow-scrolling: touch;
+}
