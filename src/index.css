@@ -683,7 +683,7 @@ header.scrolled {
   border: 1px solid var(--border-color);
   border-radius: 20px;
   padding: 40px;
-  transition: border-color 0.3s, box-shadow 0.3s, transform 0.1s ease-out;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
   overflow: hidden;
   height: 100%;
@@ -693,6 +693,9 @@ header.scrolled {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.75);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .card-3d::before {
@@ -749,6 +752,8 @@ header.scrolled {
   opacity: 0.65;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   font-family: var(--font-sans);
+  transform: translateZ(55px);
+  transform-style: preserve-3d;
 }
 
 .card-3d:hover .card-hover-tag {
@@ -776,7 +781,8 @@ header.scrolled {
   color: rgba(197, 160, 89, 0.15);
   font-weight: 800;
   margin-bottom: 24px;
-  transition: color 0.3s;
+  transition: color 0.3s, transform 0.3s;
+  transform: translateZ(50px);
 }
 
 .card-3d:hover .card-num {
@@ -789,12 +795,14 @@ header.scrolled {
   color: var(--text-primary);
   margin-bottom: 16px;
   letter-spacing: -0.01em;
+  transform: translateZ(40px);
 }
 
 .card-desc {
   font-size: 1rem;
   color: var(--text-muted);
   line-height: 1.6;
+  transform: translateZ(25px);
 }
 
 @media (max-width: 992px) {
@@ -838,6 +846,7 @@ header.scrolled {
   margin-bottom: 30px;
   color: var(--color-gold);
   transition: all 0.3s;
+  transform: translateZ(50px);
 }
 
 .card-3d:hover .tech-icon-container {
@@ -1089,6 +1098,7 @@ header.scrolled {
   line-height: 1;
   margin-bottom: 12px;
   letter-spacing: -0.02em;
+  transform: translateZ(60px);
 }
 
 .metric-label {
@@ -1098,6 +1108,7 @@ header.scrolled {
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 10px;
+  transform: translateZ(45px);
 }
 
 .metric-desc {
@@ -1105,6 +1116,7 @@ header.scrolled {
   color: var(--text-muted);
   max-width: 260px;
   margin: 0 auto;
+  transform: translateZ(30px);
 }
 
 @media (max-width: 992px) {

@@ -158,28 +158,46 @@ export default function App() {
 
   // 3D Tilt interaction logic
   useEffect(() => {
-    if (window.innerWidth < 1024) return;
     const cards = document.querySelectorAll('.card-3d');
     
     const handleMove = (e) => {
       const card = e.currentTarget;
       const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+      let clientX, clientY;
+      
+      if (e.type === 'touchmove') {
+        if (!e.touches || e.touches.length === 0) return;
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+      
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      
+      // boundaries check for touch
+      if (e.type === 'touchmove') {
+        if (x < 0 || x > rect.width || y < 0 || y > rect.height) {
+          handleLeave(e);
+          return;
+        }
+      }
       
       const pctX = (x / rect.width) * 100;
       const pctY = (y / rect.height) * 100;
       card.style.setProperty('--mouse-x', `${pctX}%`);
       card.style.setProperty('--mouse-y', `${pctY}%`);
       
-      const maxRotate = 8;
+      const maxRotate = 15; // Deeper and more immersive tilt
       const normX = (x / rect.width) - 0.5;
       const normY = (y / rect.height) - 0.5;
       
       const rotateX = (-normY * maxRotate).toFixed(2);
       const rotateY = (normX * maxRotate).toFixed(2);
       
-      card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1.015)`;
+      card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.04, 1.04, 1.04)`;
     };
 
     const handleLeave = (e) => {
@@ -197,6 +215,12 @@ export default function App() {
       card.addEventListener('mousemove', handleMove);
       card.addEventListener('mouseleave', handleLeave);
       card.addEventListener('mouseenter', handleEnter);
+      
+      // Mobile touch listeners with passive mode for scroll performance
+      card.addEventListener('touchmove', handleMove, { passive: true });
+      card.addEventListener('touchstart', handleEnter, { passive: true });
+      card.addEventListener('touchend', handleLeave, { passive: true });
+      card.addEventListener('touchcancel', handleLeave, { passive: true });
     });
 
     return () => {
@@ -204,6 +228,11 @@ export default function App() {
         card.removeEventListener('mousemove', handleMove);
         card.removeEventListener('mouseleave', handleLeave);
         card.removeEventListener('mouseenter', handleEnter);
+        
+        card.removeEventListener('touchmove', handleMove);
+        card.removeEventListener('touchstart', handleEnter);
+        card.removeEventListener('touchend', handleLeave);
+        card.removeEventListener('touchcancel', handleLeave);
       });
     };
   }, [showModal]);
