@@ -380,7 +380,7 @@ export default function App() {
         "WhatsApp": whatsapp || "",
         "Capital Disponible": capitalLabel || "",
         "LinkedIn": linkedin || "",
-        "Experiencia": experience === 'yes' ? 'Sí' : experience === 'no' ? 'No' : '',
+        "Experiencia Previa": experience === 'yes' ? 'Sí' : experience === 'no' ? 'No' : '',
         "Detalle Experiencia": experienceDetail || "",
         "Zona de Interés": region || "",
         "IP del Firmante": clientIp,
