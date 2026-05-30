@@ -45,6 +45,8 @@ export default function App() {
   const [callSlot, setCallSlot] = useState('');
   const [linkedin, setLinkedin] = useState('');
   const [ndaAccepted, setNdaAccepted] = useState(false);
+  const [experienceDetail, setExperienceDetail] = useState('');
+  const [uploadedFile, setUploadedFile] = useState(null);
 
   // Refs for interactive elements
   const dotRef = useRef(null);
@@ -299,6 +301,8 @@ export default function App() {
     setCallSlot('');
     setLinkedin('');
     setNdaAccepted(false);
+    setExperienceDetail('');
+    setUploadedFile(null);
     setIsFreno(false);
   };
 
@@ -311,7 +315,7 @@ export default function App() {
       }
     } else if (step === 2) {
       if (formCapital) {
-        if (formCapital === 'less-60k') {
+        if (formCapital === 'less-40k' || formCapital === '40k-60k') {
           setIsFreno(true);
         } else {
           setCurrentStep(3);
@@ -320,10 +324,10 @@ export default function App() {
         alert('Por favor complete los campos requeridos.');
       }
     } else if (step === 3) {
-      if (linkedin && experience) {
+      if (linkedin && experience && experienceDetail) {
         setCurrentStep(4);
       } else {
-        alert('Por favor ingrese su enlace de LinkedIn y seleccione su experiencia.');
+        alert('Por favor ingrese su enlace de LinkedIn, complete los detalles de su experiencia y seleccione la respuesta de experiencia.');
       }
     }
   };
@@ -826,13 +830,13 @@ export default function App() {
                     <p className="modal-subtitle">Ingrese sus datos de contacto para iniciar el proceso formal de evaluación. Este es el primer paso para integrarse al ecosistema gastronómico más escalable del sector.</p>
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Nombre y Apellido</label>
+                    <label className="form-label">Nombre y Apellido / Razón Social</label>
                     <input 
                       type="text" 
                       value={name} 
                       onChange={(e) => setName(e.target.value)} 
                       className="form-control" 
-                      placeholder="Nombre y Apellido completo" 
+                      placeholder="Nombre y Apellido completo / Razón Social" 
                       required 
                     />
                   </div>
@@ -878,7 +882,8 @@ export default function App() {
                       required
                     >
                       <option value="" disabled>Seleccione su capital disponible...</option>
-                      <option value="less-60k">Menos de USD 60k</option>
+                      <option value="less-40k">Menos de USD 40k</option>
+                      <option value="40k-60k">USD 40k - USD 60k</option>
                       <option value="60k-100k">USD 60k - USD 100k (Express)</option>
                       <option value="100k-200k">USD 100k - USD 200k (Avenida)</option>
                       <option value="200k+">Más de USD 200k (Sucursal Premium / Multiunit)</option>
@@ -967,6 +972,64 @@ export default function App() {
                         />
                         No
                       </label>
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Detalle su trayectoria y experiencia comercial o gastronómica</label>
+                    <textarea 
+                      value={experienceDetail} 
+                      onChange={(e) => setExperienceDetail(e.target.value)} 
+                      className="form-control" 
+                      placeholder="Describa brevemente su historial en gestión de negocios, dirección de equipos o rubro comercial..." 
+                      style={{ minHeight: '80px', resize: 'vertical' }}
+                      required 
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Adjuntar CV, Portfolio o Dossier (PDF - Opcional)</label>
+                    <div 
+                      style={{
+                        border: '1px dashed rgba(197, 160, 89, 0.3)',
+                        borderRadius: '8px',
+                        padding: '16px',
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                        backgroundColor: 'rgba(255, 255, 255, 0.01)',
+                        transition: 'all 0.3s ease',
+                        position: 'relative'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--color-gold)'}
+                      onMouseLeave={(e) => e.currentTarget.style.borderColor = 'rgba(197, 160, 89, 0.3)'}
+                    >
+                      <input 
+                        type="file" 
+                        accept=".pdf"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files.length > 0) {
+                            setUploadedFile(e.target.files[0]);
+                          }
+                        }}
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          opacity: 0,
+                          cursor: 'pointer'
+                        }}
+                      />
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+                        <FileText size={20} style={{ color: 'var(--color-gold)' }} />
+                        <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+                          {uploadedFile ? uploadedFile.name : 'Haga clic para subir su archivo PDF'}
+                        </span>
+                        <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                          {uploadedFile ? `${(uploadedFile.size / 1024 / 1024).toFixed(2)} MB` : 'PDF de hasta 10MB'}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
