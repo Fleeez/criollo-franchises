@@ -1101,7 +1101,7 @@ export default function App() {
                   </div>
                   
                   <div style={{
-                    maxHeight: '120px',
+                    maxHeight: '150px',
                     overflowY: 'auto',
                     backgroundColor: 'rgba(255, 255, 255, 0.02)',
                     border: '1px solid var(--border-color)',
@@ -1113,7 +1113,32 @@ export default function App() {
                     marginBottom: '20px',
                     textAlign: 'justify'
                   }}>
-                    La información que será provista en las próximas etapas de este proceso de evaluación—incluyendo, pero sin limitarse a: facturación histórica, manuales de operaciones, márgenes de rentabilidad y arquitectura tecnológica—es propiedad exclusiva de Criollo y de carácter estrictamente confidencial. Al aceptar este documento, el aplicante se compromete a no divulgar, reproducir ni utilizar dicha información para fines ajenos a la evaluación de esta inversión.
+                    <p style={{ margin: '0 0 12px 0' }}><strong>1. Partes Involucradas</strong><br />
+                    El presente Acuerdo de Confidencialidad (en adelante, el "Acuerdo") se celebra entre CRIOLLO (en adelante, la "Parte Reveladora") y el Aplicante a Inversor/Franquiciado cuyos datos digitales se adjuntan en el presente formulario (en adelante, la "Parte Receptora").</p>
+
+                    <p style={{ margin: '0 0 12px 0' }}><strong>2. Definición de la Información Confidencial</strong><br />
+                    Se considera "Información Confidencial" a todos los datos operativos, financieros, tecnológicos y comerciales provistos por la Parte Reveladora. Esto incluye, de manera enunciativa mas no limitativa: balances de facturación histórica, manuales de operaciones, márgenes de rentabilidad, recetas, estrategias de expansión y la arquitectura tecnológica/software de gestión de reservas.</p>
+
+                    <p style={{ margin: '0 0 12px 0' }}><strong>3. Propósito del Acuerdo</strong><br />
+                    La información será compartida única y exclusivamente con el fin de evaluar una posible asociación comercial y el otorgamiento de una licencia de franquicia de la marca Criollo a favor de la Parte Receptora.</p>
+
+                    <p style={{ margin: '0 0 12px 0' }}><strong>4. Obligaciones de la Parte Receptora</strong><br />
+                    La Parte Receptora se compromete estrictamente a:<br />
+                    • No divulgar, reproducir ni compartir la Información Confidencial con terceros bajo ningún formato.<br />
+                    • No utilizar la información para su propio beneficio comercial, ni para competir directa o indirectamente con la Parte Reveladora.<br />
+                    • Implementar las medidas de seguridad necesarias para evitar cualquier filtración o acceso no autorizado a la información provista.</p>
+
+                    <p style={{ margin: '0 0 12px 0' }}><strong>5. Excepciones</strong><br />
+                    Las obligaciones de confidencialidad no aplicarán a aquella información que: (a) sea o pase a ser de dominio público sin incumplimiento de este Acuerdo; (b) ya estuviera en posesión legítima de la Parte Receptora antes de su divulgación; o (c) sea exigida por una orden judicial competente.</p>
+
+                    <p style={{ margin: '0 0 12px 0' }}><strong>6. Duración del Acuerdo</strong><br />
+                    El presente Acuerdo entra en vigor en el momento de su aceptación digital. Las obligaciones de confidencialidad y no divulgación de la Parte Receptora se mantendrán vigentes por un plazo ininterrumpido de cinco (5) años a partir de la fecha de aceptación.</p>
+
+                    <p style={{ margin: '0 0 12px 0' }}><strong>7. Consecuencias por Incumplimiento</strong><br />
+                    Cualquier violación o uso no autorizado de la Información Confidencial facultará a la Parte Reveladora a suspender inmediatamente las negociaciones y a iniciar las acciones legales correspondientes para exigir la máxima compensación económica por los daños y perjuicios ocasionados.</p>
+
+                    <p style={{ margin: '0 0 0 0' }}><strong>8. Ley Aplicable y Jurisdicción</strong><br />
+                    El presente Acuerdo se regirá e interpretará de conformidad con las leyes vigentes. Para cualquier controversia o disputa legal derivada de la interpretación o cumplimiento de este documento, las partes se someten a la jurisdicción exclusiva de los tribunales competentes de Córdoba Capital, Argentina, renunciando a cualquier otro fuero que pudiera corresponderles.</p>
                   </div>
 
                   <div className="form-group" style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '24px' }}>
