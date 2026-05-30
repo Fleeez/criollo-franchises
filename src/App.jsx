@@ -14,7 +14,8 @@ import {
   Shield,
   FileText,
   Menu,
-  Video
+  Video,
+  Loader2
 } from 'lucide-react';
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isFreno, setIsFreno] = useState(false);
+  const [isValidatingLinkedin, setIsValidatingLinkedin] = useState(false);
 
   // Form Fields state
   const [name, setName] = useState('');
@@ -290,20 +292,11 @@ export default function App() {
   const closeModal = () => {
     setShowModal(false);
     document.body.style.overflow = '';
-    // reset form fields
-    setName('');
-    setEmail('');
-    setWhatsapp('');
-    setFormCapital('');
-    setRegion('');
-    setExperience('');
-    setTimeframe('');
-    setCallSlot('');
-    setLinkedin('');
-    setNdaAccepted(false);
-    setExperienceDetail('');
-    setUploadedFile(null);
+    // reset step states so they can re-enter, but do NOT clear filled data
+    setCurrentStep(1);
     setIsFreno(false);
+    setIsSuccess(false);
+    setNdaAccepted(false); // Reset NDA acceptance for legal safety
   };
 
   const nextStep = (step) => {
@@ -324,8 +317,17 @@ export default function App() {
         alert('Por favor complete los campos requeridos.');
       }
     } else if (step === 3) {
+      const isLinkedInValid = /^(https?:\/\/)?([a-z]{2,3}\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+\/?([?#].*)?$/i.test(linkedin);
       if (linkedin && experience && experienceDetail) {
-        setCurrentStep(4);
+        if (!isLinkedInValid) {
+          alert('Por favor ingrese un enlace de LinkedIn real y válido (ej: https://www.linkedin.com/in/su-perfil).');
+        } else {
+          setIsValidatingLinkedin(true);
+          setTimeout(() => {
+            setIsValidatingLinkedin(false);
+            setCurrentStep(4);
+          }, 1800);
+        }
       } else {
         alert('Por favor ingrese su enlace de LinkedIn, complete los detalles de su experiencia y seleccione la respuesta de experiencia.');
       }
@@ -805,7 +807,7 @@ export default function App() {
 
       {/* Multi-Step Qualification Modal */}
       {showModal && (
-        <div className="modal-overlay active" onClick={(e) => { if (e.target.classList.contains('modal-overlay')) closeModal(); }}>
+        <div className="modal-overlay active">
           <div className="modal-box">
             <button className="modal-close" onClick={closeModal} aria-label="Cerrar modal">
               <X size={24} />
@@ -911,8 +913,17 @@ export default function App() {
                       onChange={(e) => setLinkedin(e.target.value)} 
                       className="form-control" 
                       placeholder="https://www.linkedin.com/in/su-perfil" 
+                      style={{
+                        borderColor: linkedin && !/^(https?:\/\/)?([a-z]{2,3}\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+\/?([?#].*)?$/i.test(linkedin) ? 'var(--color-accent)' : ''
+                      }}
                       required 
+                      disabled={isValidatingLinkedin}
                     />
+                    {linkedin && !/^(https?:\/\/)?([a-z]{2,3}\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+\/?([?#].*)?$/i.test(linkedin) && (
+                      <span style={{ fontSize: '0.72rem', color: 'var(--color-accent)', marginTop: '4px', display: 'block' }}>
+                        Ingrese un formato de URL válido de LinkedIn (ej: https://www.linkedin.com/in/su-perfil)
+                      </span>
+                    )}
                   </div>
                   
                   <div className="form-group">
@@ -1045,8 +1056,38 @@ export default function App() {
                   </div>
                   
                   <div className="form-row" style={{ marginTop: '20px' }}>
-                    <button type="button" onClick={() => setCurrentStep(2)} className="btn-secondary" style={{ width: '100%' }}>VOLVER</button>
-                    <button type="button" onClick={() => nextStep(3)} className="btn-primary" style={{ width: '100%', backgroundColor: 'var(--color-gold)' }}>VERIFICAR IDENTIDAD</button>
+                    <button 
+                      type="button" 
+                      onClick={() => setCurrentStep(2)} 
+                      className="btn-secondary" 
+                      style={{ width: '100%' }}
+                      disabled={isValidatingLinkedin}
+                    >
+                      VOLVER
+                    </button>
+                    <button 
+                      type="button" 
+                      onClick={() => nextStep(3)} 
+                      className="btn-primary" 
+                      style={{ 
+                        width: '100%', 
+                        backgroundColor: 'var(--color-gold)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px'
+                      }}
+                      disabled={isValidatingLinkedin}
+                    >
+                      {isValidatingLinkedin ? (
+                        <>
+                          <Loader2 className="animate-spin" size={16} />
+                          VERIFICANDO IDENTIDAD...
+                        </>
+                      ) : (
+                        'VERIFICAR IDENTIDAD'
+                      )}
+                    </button>
                   </div>
                 </div>
               )}
