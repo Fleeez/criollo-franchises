@@ -1218,7 +1218,7 @@ export default function App() {
                     ¿Deseás agilizar el proceso de cualificación? Agendá una videollamada directa de 15 minutos en nuestro calendario:
                   </p>
                   <a 
-                    href="https://calendly.com/" 
+                    href="https://calendly.com/fabrizzio-joel-c/bruno-demo-15" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className="btn-primary" 
