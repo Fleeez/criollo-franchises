@@ -364,7 +364,7 @@ export default function App() {
     // 3. Credenciales de la API de Airtable (seguras, cargadas desde variables de entorno)
     const AIRTABLE_PAT = import.meta.env.VITE_AIRTABLE_PAT;
     const AIRTABLE_BASE_ID = import.meta.env.VITE_AIRTABLE_BASE_ID;
-    const AIRTABLE_TABLE_NAME = "Lista de Inversores";
+    const AIRTABLE_TABLE_NAME = "tbl4QJzQk7FT2ohUq";
 
     // Mapear el rango de capital a su etiqueta visual amigable
     let capitalLabel = formCapital;
