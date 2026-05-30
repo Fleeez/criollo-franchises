@@ -32,6 +32,7 @@ export default function App() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isFreno, setIsFreno] = useState(false);
 
   // Form Fields state
   const [name, setName] = useState('');
@@ -294,6 +295,7 @@ export default function App() {
     setExperience('');
     setTimeframe('');
     setCallSlot('');
+    setIsFreno(false);
   };
 
   const nextStep = (step) => {
@@ -304,8 +306,12 @@ export default function App() {
         alert('Por favor complete los campos requeridos.');
       }
     } else if (step === 2) {
-      if (formCapital && region && experience) {
-        setCurrentStep(3);
+      if (formCapital) {
+        if (formCapital === 'less-60k') {
+          setIsFreno(true);
+        } else {
+          setCurrentStep(3);
+        }
       } else {
         alert('Por favor complete los campos requeridos.');
       }
@@ -791,7 +797,7 @@ export default function App() {
               <X size={24} />
             </button>
 
-            {!isSuccess && (
+            {!isSuccess && !isFreno && (
               <div className="modal-progress-container">
                 <div className={`modal-progress-step ${currentStep === 1 ? 'active' : ''} ${currentStep > 1 ? 'completed' : ''}`}><span>1</span>Datos</div>
                 <div className={`modal-progress-step ${currentStep === 2 ? 'active' : ''} ${currentStep > 2 ? 'completed' : ''}`}><span>2</span>Capital</div>
@@ -799,48 +805,49 @@ export default function App() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            {!isSuccess && !isFreno && (
+              <form onSubmit={handleSubmit}>
               {/* Step 1 */}
               {!isSuccess && currentStep === 1 && (
                 <div className="modal-step-section active">
                   <div className="modal-header">
-                    <h3 className="modal-title">Identificación de Perfil</h3>
-                    <p className="modal-subtitle">Proporcioná tus datos profesionales para el Acuerdo de Confidencialidad.</p>
+                    <h3 className="modal-title">Solicitud de Admisión a Franquicia</h3>
+                    <p className="modal-subtitle">Ingrese sus datos de contacto para iniciar el proceso formal de evaluación. Este es el primer paso para integrarse al ecosistema gastronómico más escalable del sector.</p>
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Nombre Completo / Razón Social</label>
+                    <label className="form-label">Nombre y Apellido</label>
                     <input 
                       type="text" 
                       value={name} 
                       onChange={(e) => setName(e.target.value)} 
                       className="form-control" 
-                      placeholder="Ej. Javier Gómez" 
+                      placeholder="Nombre y Apellido completo" 
                       required 
                     />
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Email Corporativo</label>
+                    <label className="form-label">Correo Electrónico</label>
                     <input 
                       type="email" 
                       value={email} 
                       onChange={(e) => setEmail(e.target.value)} 
                       className="form-control" 
-                      placeholder="jgomez@inversiones.com" 
+                      placeholder="Correo electrónico corporativo o personal" 
                       required 
                     />
                   </div>
                   <div className="form-group">
-                    <label className="form-label">WhatsApp de Contacto Directo</label>
+                    <label className="form-label">Número de WhatsApp</label>
                     <input 
                       type="tel" 
                       value={whatsapp} 
                       onChange={(e) => setWhatsapp(e.target.value)} 
                       className="form-control" 
-                      placeholder="+54 9 11 1234-5678" 
+                      placeholder="Número de WhatsApp (con código de área)" 
                       required 
                     />
                   </div>
-                  <button type="button" onClick={() => nextStep(1)} className="btn-primary form-submit-btn">SIGUIENTE PASO →</button>
+                  <button type="button" onClick={() => nextStep(1)} className="btn-primary form-submit-btn">CONTINUAR EVALUACIÓN →</button>
                 </div>
               )}
 
@@ -848,51 +855,27 @@ export default function App() {
               {!isSuccess && currentStep === 2 && (
                 <div className="modal-step-section active">
                   <div className="modal-header">
-                    <h3 className="modal-title">Capacidad & Territorio</h3>
-                    <p className="modal-subtitle">Evaluamos si el capital disponible se adecua a las zonas vacantes.</p>
+                    <h3 className="modal-title">Estructura de Capital</h3>
+                    <p className="modal-subtitle">Indique el rango de liquidez disponible que tiene proyectado para este negocio. Este dato es excluyente para avanzar a la etapa de métricas financieras.</p>
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Capital Inmediato Disponible (USD)</label>
+                    <label className="form-label">Capital Disponible</label>
                     <select 
                       value={formCapital} 
                       onChange={(e) => setFormCapital(e.target.value)} 
                       className="form-control form-select" 
                       required
                     >
-                      <option value="" disabled>Seleccione escala de su inversión...</option>
+                      <option value="" disabled>Seleccione su capital disponible...</option>
+                      <option value="less-60k">Menos de USD 60k</option>
                       <option value="60k-100k">USD 60k - USD 100k (Express)</option>
                       <option value="100k-200k">USD 100k - USD 200k (Avenida)</option>
                       <option value="200k+">Más de USD 200k (Sucursal Premium / Multiunit)</option>
                     </select>
                   </div>
-                  <div className="form-group">
-                    <label className="form-label">Territorio o Ciudad de Interés</label>
-                    <input 
-                      type="text" 
-                      value={region} 
-                      onChange={(e) => setRegion(e.target.value)} 
-                      className="form-control" 
-                      placeholder="Ej. Córdoba Capital, Zona Norte" 
-                      required 
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">¿Tiene experiencia previa en comercio / gastronomía?</label>
-                    <select 
-                      value={experience} 
-                      onChange={(e) => setExperience(e.target.value)} 
-                      className="form-control form-select" 
-                      required
-                    >
-                      <option value="" disabled>Seleccione...</option>
-                      <option value="yes">Sí, opero locales comerciales actualmente</option>
-                      <option value="franchise">Sí, poseo otras franquicias</option>
-                      <option value="no">No, es mi primera incursión comercial</option>
-                    </select>
-                  </div>
                   <div className="form-row">
                     <button type="button" onClick={() => setCurrentStep(1)} className="btn-secondary" style={{ width: '100%' }}>VOLVER</button>
-                    <button type="button" onClick={() => setCurrentStep(3)} className="btn-primary" style={{ width: '100%', backgroundColor: 'var(--color-gold)' }}>SIGUIENTE PASO</button>
+                    <button type="button" onClick={() => nextStep(2)} className="btn-primary" style={{ width: '100%', backgroundColor: 'var(--color-gold)' }}>VALIDAR CAPACIDAD</button>
                   </div>
                 </div>
               )}
@@ -940,7 +923,8 @@ export default function App() {
                   </div>
                 </div>
               )}
-            </form>
+              </form>
+            )}
 
             {/* Success State */}
             {isSuccess && (
@@ -968,7 +952,7 @@ export default function App() {
                     Para salvaguardar la información estratégica confidencial de la firma, los balances consolidados y el Dossier Técnico no se distribuyen de forma automatizada.
                   </p>
                   <p>
-                    Nuestro Comité de Expansión auditará la viabilidad y disponibilidad geográfica de la zona solicitada (<strong>{region}</strong>) para la escala de inversión de <strong>{formCapital === '60k-100k' ? 'USD 60k - USD 100k (Express)' : formCapital === '100k-200k' ? 'USD 100k - USD 200k (Avenida)' : 'Más de USD 200k (Premium / Multiunit)'}</strong>.
+                    Nuestro Comité de Expansión auditará la viabilidad y disponibilidad de su postulación para la escala de inversión de <strong>{formCapital === '60k-100k' ? 'USD 60k - USD 100k (Express)' : formCapital === '100k-200k' ? 'USD 100k - USD 200k (Avenida)' : 'Más de USD 200k (Premium / Multiunit)'}</strong>.
                   </p>
                 </div>
 
@@ -1011,6 +995,38 @@ export default function App() {
                     AGENDAR VIDEOLLAMADA
                   </a>
                 </div>
+              </div>
+            )}
+
+            {/* Rejection/Freno State */}
+            {isFreno && (
+              <div className="qualify-success" style={{ display: 'block' }}>
+                <div className="success-check-badge" style={{ 
+                  backgroundColor: 'rgba(166, 90, 42, 0.1)', 
+                  borderColor: 'rgba(166, 90, 42, 0.3)',
+                  color: 'var(--color-accent)'
+                }}>
+                  <Lock size={28} />
+                </div>
+                <h3 className="modal-title" style={{ color: 'var(--color-accent)', marginBottom: '16px' }}>Agradecemos su Interés</h3>
+                
+                <div style={{ 
+                  backgroundColor: 'rgba(255, 255, 255, 0.01)', 
+                  border: '1px solid rgba(166, 90, 42, 0.15)', 
+                  borderRadius: '12px', 
+                  padding: '24px', 
+                  marginBottom: '28px',
+                  textAlign: 'left',
+                  fontSize: '0.9rem',
+                  lineHeight: '1.6',
+                  color: 'var(--text-primary)'
+                }}>
+                  Agradecemos su interés en formar parte del ecosistema Criollo. Actualmente, nuestras rondas de expansión corporativa requieren un ticket de inversión superior al perfil indicado. Hemos resguardado de forma segura su contacto para notificarle sobre futuras aperturas de formatos más accesibles.
+                </div>
+
+                <button type="button" onClick={closeModal} className="btn-secondary" style={{ width: '100%', justifyContent: 'center' }}>
+                  CERRAR
+                </button>
               </div>
             )}
           </div>
