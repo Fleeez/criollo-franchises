@@ -43,6 +43,8 @@ export default function App() {
   const [experience, setExperience] = useState('');
   const [timeframe, setTimeframe] = useState('');
   const [callSlot, setCallSlot] = useState('');
+  const [linkedin, setLinkedin] = useState('');
+  const [ndaAccepted, setNdaAccepted] = useState(false);
 
   // Refs for interactive elements
   const dotRef = useRef(null);
@@ -295,6 +297,8 @@ export default function App() {
     setExperience('');
     setTimeframe('');
     setCallSlot('');
+    setLinkedin('');
+    setNdaAccepted(false);
     setIsFreno(false);
   };
 
@@ -315,13 +319,19 @@ export default function App() {
       } else {
         alert('Por favor complete los campos requeridos.');
       }
+    } else if (step === 3) {
+      if (linkedin && experience) {
+        setCurrentStep(4);
+      } else {
+        alert('Por favor ingrese su enlace de LinkedIn y seleccione su experiencia.');
+      }
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!timeframe || !callSlot) {
-      alert('Por favor complete los campos de contacto.');
+    if (!ndaAccepted) {
+      alert('Debe aceptar los términos del Acuerdo de Confidencialidad.');
       return;
     }
 
@@ -801,7 +811,8 @@ export default function App() {
               <div className="modal-progress-container">
                 <div className={`modal-progress-step ${currentStep === 1 ? 'active' : ''} ${currentStep > 1 ? 'completed' : ''}`}><span>1</span>Datos</div>
                 <div className={`modal-progress-step ${currentStep === 2 ? 'active' : ''} ${currentStep > 2 ? 'completed' : ''}`}><span>2</span>Capital</div>
-                <div className={`modal-progress-step ${currentStep === 3 ? 'active' : ''}`}><span>3</span>Reunión</div>
+                <div className={`modal-progress-step ${currentStep === 3 ? 'active' : ''} ${currentStep > 3 ? 'completed' : ''}`}><span>3</span>Perfil</div>
+                <div className={`modal-progress-step ${currentStep === 4 ? 'active' : ''}`}><span>4</span>NDA</div>
               </div>
             )}
 
@@ -884,41 +895,141 @@ export default function App() {
               {!isSuccess && currentStep === 3 && (
                 <div className="modal-step-section active">
                   <div className="modal-header">
-                    <h3 className="modal-title">Agenda de Seguridad B2B</h3>
-                    <p className="modal-subtitle">Asigná una breve entrevista telefónica directa para liberar el Dossier.</p>
+                    <h3 className="modal-title">Perfil Operativo e Historial</h3>
+                    <p className="modal-subtitle">Buscamos socios estratégicos, no solo capital. El directorio requiere conocer su trayectoria antes de liberar información sensible de la marca.</p>
                   </div>
                   <div className="form-group">
-                    <label className="form-label">Plazo Proyectado de Apertura</label>
-                    <select 
-                      value={timeframe} 
-                      onChange={(e) => setTimeframe(e.target.value)} 
-                      className="form-control form-select" 
-                      required
-                    >
-                      <option value="" disabled>Seleccione plazo...</option>
-                      <option value="immediate">Inmediato (0-3 meses)</option>
-                      <option value="medium">Mediano plazo (3-6 meses)</option>
-                      <option value="long">Largo plazo (6-12 meses)</option>
-                    </select>
+                    <label className="form-label">Enlace a su perfil de LinkedIn</label>
+                    <input 
+                      type="url" 
+                      value={linkedin} 
+                      onChange={(e) => setLinkedin(e.target.value)} 
+                      className="form-control" 
+                      placeholder="https://www.linkedin.com/in/su-perfil" 
+                      required 
+                    />
                   </div>
+                  
                   <div className="form-group">
-                    <label className="form-label">Horario de Contacto Preferido</label>
-                    <select 
-                      value={callSlot} 
-                      onChange={(e) => setCallSlot(e.target.value)} 
-                      className="form-control form-select" 
-                      required
-                    >
-                      <option value="" disabled>Seleccione franja horaria...</option>
-                      <option value="mañana">Mañana (09:00 - 12:00)</option>
-                      <option value="tarde">Tarde (14:00 - 18:00)</option>
-                      <option value="noche">Tarde-Noche (18:00 - 20:00)</option>
-                    </select>
+                    <label className="form-label" style={{ display: 'block', marginBottom: '8px' }}>
+                      ¿Posee experiencia previa en dirección de negocios o el sector gastronómico?
+                    </label>
+                    <div style={{ display: 'flex', gap: '16px', marginTop: '8px' }}>
+                      <label style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '8px', 
+                        cursor: 'pointer',
+                        fontSize: '0.85rem',
+                        color: experience === 'yes' ? 'var(--color-gold)' : 'var(--text-muted)',
+                        border: '1px solid',
+                        borderColor: experience === 'yes' ? 'var(--color-gold)' : 'var(--border-color)',
+                        padding: '12px 20px',
+                        borderRadius: '8px',
+                        backgroundColor: experience === 'yes' ? 'rgba(197, 160, 89, 0.05)' : 'transparent',
+                        transition: 'all 0.3s ease',
+                        flex: 1,
+                        justifyContent: 'center'
+                      }}>
+                        <input 
+                          type="radio" 
+                          name="experience" 
+                          value="yes"
+                          checked={experience === 'yes'}
+                          onChange={() => setExperience('yes')}
+                          style={{ display: 'none' }}
+                        />
+                        Sí
+                      </label>
+                      <label style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '8px', 
+                        cursor: 'pointer',
+                        fontSize: '0.85rem',
+                        color: experience === 'no' ? 'var(--color-gold)' : 'var(--text-muted)',
+                        border: '1px solid',
+                        borderColor: experience === 'no' ? 'var(--color-gold)' : 'var(--border-color)',
+                        padding: '12px 20px',
+                        borderRadius: '8px',
+                        backgroundColor: experience === 'no' ? 'rgba(197, 160, 89, 0.05)' : 'transparent',
+                        transition: 'all 0.3s ease',
+                        flex: 1,
+                        justifyContent: 'center'
+                      }}>
+                        <input 
+                          type="radio" 
+                          name="experience" 
+                          value="no"
+                          checked={experience === 'no'}
+                          onChange={() => setExperience('no')}
+                          style={{ display: 'none' }}
+                        />
+                        No
+                      </label>
+                    </div>
                   </div>
-                  <div className="form-row" style={{ marginTop: '15px' }}>
+
+                  <div className="form-group">
+                    <label className="form-label">Describa brevemente la zona geográfica de su interés (Opcional)</label>
+                    <input 
+                      type="text" 
+                      value={region} 
+                      onChange={(e) => setRegion(e.target.value)} 
+                      className="form-control" 
+                      placeholder="Ej. Córdoba Capital, Zona Norte" 
+                    />
+                  </div>
+                  
+                  <div className="form-row" style={{ marginTop: '20px' }}>
                     <button type="button" onClick={() => setCurrentStep(2)} className="btn-secondary" style={{ width: '100%' }}>VOLVER</button>
+                    <button type="button" onClick={() => nextStep(3)} className="btn-primary" style={{ width: '100%', backgroundColor: 'var(--color-gold)' }}>VERIFICAR IDENTIDAD</button>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4 */}
+              {!isSuccess && currentStep === 4 && (
+                <div className="modal-step-section active">
+                  <div className="modal-header">
+                    <h3 className="modal-title">Acuerdo de Confidencialidad (NDA)</h3>
+                    <p className="modal-subtitle">Para acceder a la agenda de los fundadores y a los balances operativos, requerimos su conformidad legal.</p>
+                  </div>
+                  
+                  <div style={{
+                    maxHeight: '120px',
+                    overflowY: 'auto',
+                    backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '8px',
+                    padding: '14px',
+                    fontSize: '0.78rem',
+                    color: 'var(--text-muted)',
+                    lineHeight: '1.6',
+                    marginBottom: '20px',
+                    textAlign: 'justify'
+                  }}>
+                    La información que será provista en las próximas etapas de este proceso de evaluación—incluyendo, pero sin limitarse a: facturación histórica, manuales de operaciones, márgenes de rentabilidad y arquitectura tecnológica—es propiedad exclusiva de Criollo y de carácter estrictamente confidencial. Al aceptar este documento, el aplicante se compromete a no divulgar, reproducir ni utilizar dicha información para fines ajenos a la evaluación de esta inversión.
+                  </div>
+
+                  <div className="form-group" style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '24px' }}>
+                    <input 
+                      type="checkbox" 
+                      id="ndaAccepted"
+                      checked={ndaAccepted}
+                      onChange={(e) => setNdaAccepted(e.target.checked)}
+                      style={{ marginTop: '4px', cursor: 'pointer' }}
+                      required
+                    />
+                    <label htmlFor="ndaAccepted" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', cursor: 'pointer', lineHeight: '1.4', textAlign: 'left' }}>
+                      Acepto los términos del Acuerdo de Confidencialidad y declaro bajo juramento que los datos de identidad y capital provistos son exactos y veraces.
+                    </label>
+                  </div>
+
+                  <div className="form-row">
+                    <button type="button" onClick={() => setCurrentStep(3)} className="btn-secondary" style={{ width: '100%' }}>VOLVER</button>
                     <button type="submit" disabled={isSubmitting} className="btn-primary" style={{ width: '100%', backgroundColor: 'var(--color-gold)' }}>
-                      {isSubmitting ? 'EVALUANDO SOLVENCIA...' : 'ENVIAR POSTULACIÓN'}
+                      {isSubmitting ? 'FIRMANDO Y ENVIANDO...' : 'FIRMAR Y ENVIAR SOLICITUD'}
                     </button>
                   </div>
                 </div>
@@ -957,7 +1068,7 @@ export default function App() {
                 </div>
 
                 <div style={{ fontSize: '0.88rem', color: 'var(--text-primary)', lineHeight: '1.5', fontWeight: 600, marginBottom: '24px' }}>
-                  De ser cualificado, un Director General de la firma se comunicará de forma directa al número <span style={{ color: 'var(--color-gold)' }}>{whatsapp}</span> en la franja de la <span style={{ color: 'var(--color-gold)' }}>{callSlot}</span> coordinada para pactar una reunión formal de negocios o coordinar una videollamada de presentación.
+                  De ser cualificado, un Director General de la firma se comunicará de forma directa al número <span style={{ color: 'var(--color-gold)' }}>{whatsapp}</span> para pactar una reunión formal de negocios o coordinar una videollamada de presentación.
                 </div>
 
                 <div style={{ 
