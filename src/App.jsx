@@ -408,6 +408,30 @@ export default function App() {
         throw new Error(errorData.error?.message || "Error al comunicarse con la base de datos.");
       }
 
+      const recordData = await response.json();
+      const recordId = recordData.id;
+
+      // 6. Subir el PDF adjunto si el usuario lo proporcionó
+      if (uploadedFile && recordId) {
+        const formData = new FormData();
+        formData.append('file', uploadedFile, uploadedFile.name);
+        formData.append('filename', uploadedFile.name);
+        formData.append('contentType', 'application/pdf');
+
+        const uploadRes = await fetch(
+          `https://content.airtable.com/v0/${AIRTABLE_BASE_ID}/${recordId}/uploadAttachment/Documento%20PDF`,
+          {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}` },
+            body: formData
+          }
+        );
+
+        if (!uploadRes.ok) {
+          console.warn('Error al subir el PDF:', await uploadRes.text());
+        }
+      }
+
       setIsSuccess(true);
     } catch (error) {
       console.error("Airtable Connection Error:", error);
