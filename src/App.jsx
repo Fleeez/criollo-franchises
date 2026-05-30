@@ -334,7 +334,7 @@ export default function App() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!ndaAccepted) {
       alert('Debe aceptar los términos del Acuerdo de Confidencialidad.');
@@ -342,10 +342,79 @@ export default function App() {
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+
+    // 1. Capturar Dispositivo (User-Agent) y Timestamp de Firma (ISO)
+    const userAgent = navigator.userAgent;
+    const timestamp = new Date().toISOString();
+    let clientIp = "IP no disponible (Bloqueada por cliente)";
+
+    // 2. Obtener IP pública (Adblocker-Safe)
+    try {
+      const ipResponse = await fetch("https://api.ipify.org?format=json");
+      if (ipResponse.ok) {
+        const ipData = await ipResponse.json();
+        if (ipData && ipData.ip) {
+          clientIp = ipData.ip;
+        }
+      }
+    } catch (err) {
+      console.warn("La captura de IP falló:", err);
+    }
+
+    // 3. Credenciales de la API de Airtable (seguras, cargadas desde variables de entorno)
+    const AIRTABLE_PAT = import.meta.env.VITE_AIRTABLE_PAT;
+    const AIRTABLE_BASE_ID = import.meta.env.VITE_AIRTABLE_BASE_ID;
+    const AIRTABLE_TABLE_NAME = "Lista de Inversores";
+
+    // Mapear el rango de capital a su etiqueta visual amigable
+    let capitalLabel = formCapital;
+    if (formCapital === '60k-100k') capitalLabel = 'USD 60k - USD 100k (Express)';
+    else if (formCapital === '100k-200k') capitalLabel = 'USD 100k - USD 200k (Avenida)';
+    else if (formCapital === '200k+') capitalLabel = 'Más de USD 200k (Premium / Multiunit)';
+
+    // 4. Preparar Payload para Airtable
+    const payload = {
+      fields: {
+        "Nombre": name || "",
+        "Email": email || "",
+        "WhatsApp": whatsapp || "",
+        "Capital Disponible": capitalLabel || "",
+        "LinkedIn": linkedin || "",
+        "Experiencia": experience === 'yes' ? 'Sí' : experience === 'no' ? 'No' : '',
+        "Detalle Experiencia": experienceDetail || "",
+        "Zona de Interés": region || "",
+        "IP del Firmante": clientIp,
+        "Dispositivo": userAgent,
+        "Fecha de Firma": timestamp
+      }
+    };
+
+    // 5. Realizar el POST a Airtable
+    try {
+      const response = await fetch(
+        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`,
+        {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${AIRTABLE_PAT}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error?.message || "Error al comunicarse con la base de datos.");
+      }
+
       setIsSuccess(true);
-    }, 2000);
+    } catch (error) {
+      console.error("Airtable Connection Error:", error);
+      alert(`Error al enviar la postulación: ${error.message || 'Error desconocido'}. Por favor, intente de nuevo.`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const scrollToSection = (id) => {
