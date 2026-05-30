@@ -1137,8 +1137,11 @@ export default function App() {
                     <p style={{ margin: '0 0 12px 0' }}><strong>7. Consecuencias por Incumplimiento</strong><br />
                     Cualquier violación o uso no autorizado de la Información Confidencial facultará a la Parte Reveladora a suspender inmediatamente las negociaciones y a iniciar las acciones legales correspondientes para exigir la máxima compensación económica por los daños y perjuicios ocasionados.</p>
 
-                    <p style={{ margin: '0 0 0 0' }}><strong>8. Ley Aplicable y Jurisdicción</strong><br />
+                    <p style={{ margin: '0 0 12px 0' }}><strong>8. Ley Aplicable y Jurisdicción</strong><br />
                     El presente Acuerdo se regirá e interpretará de conformidad con las leyes vigentes. Para cualquier controversia o disputa legal derivada de la interpretación o cumplimiento de este documento, las partes se someten a la jurisdicción exclusiva de los tribunales competentes de Córdoba Capital, Argentina, renunciando a cualquier otro fuero que pudiera corresponderles.</p>
+
+                    <p style={{ margin: '0 0 0 0' }}><strong>9. Declaración Jurada de Veracidad de Datos</strong><br />
+                    La Parte Receptora declara bajo juramento que toda la información de identidad, contacto, historial corporativo y estructura de capital provista en las fases previas de este proceso es exacta, veraz y comprobable. Cualquier falsedad, adulteración u omisión maliciosa en los datos ingresados constituirá una violación material de este Acuerdo, facultando a la Parte Reveladora a anular instantáneamente las negociaciones y bloquear de forma permanente al Aplicante de futuras rondas de inversión, sin perjuicio de las acciones legales que pudieran corresponder.</p>
                   </div>
 
                   <div className="form-group" style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: '24px' }}>
